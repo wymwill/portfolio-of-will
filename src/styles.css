@@ -1,0 +1,465 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* "The Archive" design tokens. All colors oklch. */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Archive palette */
+  --color-ink: var(--ink);
+  --color-ink-deep: var(--ink-deep);
+  --color-parchment: var(--parchment);
+  --color-parchment-dim: var(--parchment-dim);
+  --color-brass: var(--brass);
+  --color-brass-bright: var(--brass-bright);
+  --color-brass-dim: var(--brass-dim);
+  --color-copper: var(--copper);
+  --color-arcane: var(--arcane);
+  --color-arcane-bright: var(--arcane-bright);
+  --color-blood: var(--blood);
+
+  --font-display: "Cinzel", ui-serif, Georgia, serif;
+  --font-body: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Space Grotesk", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+:root {
+  --radius: 0.5rem;
+
+  /* palette: gold #D4AF37 · blue #4D96FF · indigo #1A1B2E / #0D0E14 */
+  --ink: oklch(0.23 0.03 285); /* #1A1B2E tertiary */
+  --ink-deep: oklch(0.15 0.018 285); /* #0D0E14 neutral */
+  --parchment: oklch(0.87 0.03 90);
+  --parchment-dim: oklch(0.68 0.028 88);
+  --brass: oklch(0.76 0.125 90); /* #D4AF37 primary */
+  --brass-bright: oklch(0.87 0.12 93);
+  --brass-dim: oklch(0.5 0.08 88);
+  --copper: oklch(0.6 0.09 70);
+  --arcane: oklch(0.66 0.17 258); /* #4D96FF secondary */
+  --arcane-bright: oklch(0.78 0.13 255);
+  --blood: oklch(0.55 0.16 25);
+
+  /* shadcn mappings — mapped to archive palette */
+  --background: var(--ink-deep);
+  --foreground: var(--parchment);
+  --card: oklch(0.18 0.02 260);
+  --card-foreground: var(--parchment);
+  --popover: oklch(0.14 0.02 260);
+  --popover-foreground: var(--parchment);
+  --primary: var(--brass);
+  --primary-foreground: var(--ink-deep);
+  --secondary: oklch(0.22 0.02 260);
+  --secondary-foreground: var(--parchment);
+  --muted: oklch(0.2 0.015 260);
+  --muted-foreground: var(--parchment-dim);
+  --accent: var(--arcane);
+  --accent-foreground: var(--ink-deep);
+  --destructive: var(--blood);
+  --destructive-foreground: var(--parchment);
+  --border: oklch(0.3 0.03 78 / 0.35);
+  --input: oklch(0.3 0.03 78 / 0.35);
+  --ring: var(--brass);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  /* RamScrollbar replaces the native scrollbar on desktop */
+  @media (min-width: 640px) {
+    html {
+      scrollbar-width: none;
+    }
+    html::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: 0.015em;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--brass) 45%, transparent);
+    color: var(--parchment);
+  }
+  :focus-visible {
+    outline: 2px solid var(--brass);
+    outline-offset: 3px;
+  }
+}
+
+/* utilities */
+
+@utility font-display {
+  font-family: var(--font-display);
+}
+@utility font-plex {
+  font-family: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+@utility font-mono-plex {
+  font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.74rem;
+}
+@utility font-mono-archive {
+  font-family: var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+@utility text-brass {
+  color: var(--brass);
+}
+@utility text-brass-bright {
+  color: var(--brass-bright);
+}
+@utility text-arcane {
+  color: var(--arcane);
+}
+@utility text-parchment {
+  color: var(--parchment);
+}
+@utility text-parchment-dim {
+  color: var(--parchment-dim);
+}
+@utility bg-ink {
+  background-color: var(--ink);
+}
+@utility bg-ink-deep {
+  background-color: var(--ink-deep);
+}
+@utility bg-brass {
+  background-color: var(--brass);
+}
+@utility bg-brass-bright {
+  background-color: var(--brass-bright);
+}
+@utility border-brass {
+  border-color: color-mix(in oklab, var(--brass) 55%, transparent);
+}
+@utility border-brass-dim {
+  border-color: color-mix(in oklab, var(--brass) 25%, transparent);
+}
+
+@utility bg-parchment-plate {
+  background:
+    radial-gradient(
+      ellipse at 30% 20%,
+      color-mix(in oklab, var(--brass) 10%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 80% 80%,
+      color-mix(in oklab, var(--copper) 8%, transparent),
+      transparent 55%
+    ),
+    linear-gradient(180deg, oklch(0.2 0.022 260), oklch(0.14 0.02 260));
+}
+@utility bg-arcane-glow {
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--arcane-bright) 55%, transparent) 0%,
+    color-mix(in oklab, var(--arcane) 25%, transparent) 40%,
+    transparent 75%
+  );
+}
+
+@utility engraved {
+  border: 1px solid color-mix(in oklab, var(--brass) 50%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--ink-deep) 60%, transparent),
+    inset 0 0 0 2px color-mix(in oklab, var(--brass) 22%, transparent),
+    0 20px 50px -30px color-mix(in oklab, black 100%, transparent);
+}
+
+/* clipped octagon with a border that follows the chamfers: ::before floods
+   the shape with the border color, ::after repaints the interior inset 1px */
+@utility archive-frame {
+  position: relative;
+  isolation: isolate;
+  clip-path: polygon(
+    14px 0,
+    calc(100% - 14px) 0,
+    100% 14px,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    14px 100%,
+    0 calc(100% - 14px),
+    0 14px
+  );
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: var(--af-border, color-mix(in oklab, var(--brass) 55%, transparent));
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    z-index: -1;
+    background: var(--af-bg, var(--ink));
+    clip-path: polygon(
+      13.5px 0,
+      calc(100% - 13.5px) 0,
+      100% 13.5px,
+      100% calc(100% - 13.5px),
+      calc(100% - 13.5px) 100%,
+      13.5px 100%,
+      0 calc(100% - 13.5px),
+      0 13.5px
+    );
+    transition: background 200ms ease;
+  }
+  &:hover::after {
+    background: var(--af-bg-hover, var(--af-bg, var(--ink)));
+  }
+}
+
+@utility clip-archive {
+  clip-path: polygon(
+    14px 0,
+    calc(100% - 14px) 0,
+    100% 14px,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    14px 100%,
+    0 calc(100% - 14px),
+    0 14px
+  );
+}
+
+/* tarot nav cards */
+
+.tarot-card {
+  perspective: 700px;
+}
+.tarot-card-inner {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.tarot-card.is-flipped .tarot-card-inner {
+  transform: rotateY(180deg);
+}
+.tarot-card-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 6px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.tarot-card-front {
+  transform: rotateY(180deg);
+}
+
+@keyframes card-rise {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+main section[id] {
+  scroll-margin-top: 140px;
+}
+
+/* entrance seal */
+
+@keyframes seal-iris-out {
+  from {
+    clip-path: circle(120% at 50% 50%);
+  }
+  to {
+    clip-path: circle(0% at 50% 50%);
+  }
+}
+.seal-iris-out {
+  animation: seal-iris-out 800ms cubic-bezier(0.6, 0, 0.8, 0.4) both;
+}
+
+@keyframes seal-progress {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* keyframes */
+
+@keyframes ring-spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ring-spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+@keyframes lens-pulse {
+  0%,
+  100% {
+    opacity: 0.75;
+    filter: drop-shadow(0 0 8px var(--arcane));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 22px var(--arcane-bright));
+  }
+}
+@keyframes drift-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes engrave-draw {
+  from {
+    stroke-dashoffset: 1000;
+    opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+@keyframes iris-open {
+  from {
+    clip-path: circle(0% at 50% 50%);
+    opacity: 0;
+  }
+  to {
+    clip-path: circle(120% at 50% 50%);
+    opacity: 1;
+  }
+}
+@keyframes star-twinkle {
+  0%,
+  60%,
+  100% {
+    opacity: 0;
+    filter: drop-shadow(0 0 0px var(--brass-bright)) brightness(1);
+    transform: translateZ(0);
+  }
+  80% {
+    opacity: 1;
+    filter: drop-shadow(0 0 15px var(--brass-bright)) drop-shadow(0 0 30px var(--brass-bright)) brightness(4);
+    transform: translateZ(0);
+  }
+}
+@keyframes scroll-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+@utility animate-ring-slow {
+  animation: ring-spin-slow 120s linear infinite;
+}
+@utility animate-ring-med {
+  animation: ring-spin-reverse 80s linear infinite;
+}
+@utility animate-ring-fast {
+  animation: ring-spin-slow 45s linear infinite;
+}
+@utility animate-lens {
+  animation: lens-pulse 4.5s ease-in-out infinite;
+}
+@utility animate-drift {
+  animation: drift-up 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@utility animate-iris {
+  animation: iris-open 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@utility animate-twinkle {
+  animation: star-twinkle 8s ease-in-out infinite;
+  will-change: opacity, filter;
+  transform: translateZ(0);
+}
+@utility animate-scroll-hint {
+  animation: scroll-hint 2.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
