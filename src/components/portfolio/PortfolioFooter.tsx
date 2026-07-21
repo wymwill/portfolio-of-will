@@ -10,9 +10,7 @@ export function PortfolioFooter() {
         <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:text-left w-full">
           <div>
             <div className="font-display text-lg text-parchment">{PROFILE.name}</div>
-            <div className="font-mono-archive text-parchment-dim">
-              Archive sealed © {year}
-            </div>
+            <div className="font-mono-archive text-parchment-dim">Archive sealed © {year}</div>
           </div>
           <div className="flex flex-wrap items-center gap-4">
             <a
@@ -21,7 +19,7 @@ export function PortfolioFooter() {
               target="_blank"
               rel="noreferrer"
             >
-              GitHub 
+              GitHub
             </a>
             <a
               href={PROFILE.links.linkedin}

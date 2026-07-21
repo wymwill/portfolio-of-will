@@ -38,7 +38,7 @@ export const SKILL_CARDS: SkillCard[] = [
     romanNumeral: "IV",
     symbol: "★",
     domain: "Inspiration and UI Design",
-    skills: ["React", "Vue.js", "Node.js", "Tailwind CSS", "Figma" ],
+    skills: ["React", "Vue.js", "Node.js", "Tailwind CSS", "Figma"],
   },
   {
     id: "software",
@@ -46,6 +46,6 @@ export const SKILL_CARDS: SkillCard[] = [
     romanNumeral: "V",
     symbol: "♡",
     domain: "Team Based Development",
-    skills: ["Git", "GitHub/GitLab", "Docker", "Kubernetes", "Agile Development"]
+    skills: ["Git", "GitHub/GitLab", "Docker", "Kubernetes", "Agile Development"],
   },
 ];

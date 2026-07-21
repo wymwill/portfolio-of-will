@@ -1,51 +1,44 @@
 # Portfolio of Will
 
-Personal portfolio site with a "magic archive" theme: tarot card navigation, a zodiac night sky that turns as you scroll, and a pixel-art ram for a scrollbar. Everything on the page is drawn in code (SVG and CSS), no stock images.
+Personal portfolio site with a archive theme with mystical aspects.
+A tarot-card navigation bar, stars that pulse over time, a pixel art ram scrollbar, and an interactive 8-Ball. 
 
 ## Tech stack
 
 - React 19 + TypeScript
-- TanStack Start (SSR framework) with TanStack Router for file-based, type-safe routing
-- Vite 8 for dev server and bundling, Nitro for the production server output
-- Tailwind CSS 4 with a custom token-based design system
-- Fonts: Cinzel (headings), Hanken Grotesk (body), Space Grotesk (labels)
+- TanStack Start (SSR) 
+- Vite 8 for dev/bundling, Nitro for the production server
+- Tailwind CSS 4 
+- Three.js for the Oracle orb, GSAP (+ ScrollTrigger) for scroll reveals and the orb's shake animation
 
-## How the main pieces work
+## Sections & components
 
-### Design tokens
+- **TarotNav** — Six tarot cards that track the active section and flip until the user clicks on the section you want to navigate to.
+- **HeroSection** — Landing page with my name, disciplines, and a brief description of me.
+- **AboutSection** — A bio alongside the interactive Magic 8-Ball and a resume button. Also includes the current shows and books I am following or reading.
+- **Magic8Ball / OracleScene** — A draggable magic 8-ball built with Three.js. Tap to shake and reveal a new reading, drag to rotate.
+- **SkillsSection** — Five tarot cards that flip on tap/hover to reveal each discipline's skills.
+- **ExperienceSection** — Two sided timeline with my technical and social experiences with entries revealing as the user scrolls.
+- **ProjectsSection** — A grid of project cards that open a full dossier modal with project description.
+- **ContactSection** — Client validated form that composes a pre-filled `mailto:` draft, so it works from a static host.
+- **AtmosphericBackground** — Stars that pulse in the sky.
+- **RamScrollbar** — A pixel art ram scrollbar (meant to represent Aries) that replaces the native one on desktop.
+- **ArchiveSeal** — A once per session entrance animation that unseals the page through a `clip-path` iris.
+- **Reveal** — Reusable GSAP + ScrollTrigger wrapper that fades and rises content into view.
+- **primitives** — Shared building blocks (buttons, brass frames, section headings, ornaments).
 
-All colors live as CSS custom properties in `src/styles.css` (gold `#D4AF37`, blue `#4D96FF`, indigo darks, expressed in oklch). Components only reference tokens, never raw colors, so retheming the whole site is a one-file change. Content (profile, experience, skills, projects) is separated into typed files under `src/content/` so copy edits never touch component code.
+## Design system
 
-### Tarot card navigation (`TarotNav.tsx`)
-
-The section nav is a row of six tarot cards that rest face-down and flip face-up on hover or when their section is active. The flip is a CSS 3D transform (`rotateY` with `backface-visibility: hidden`); active-section tracking uses an `IntersectionObserver` over the section elements. Past 60px of scroll the cards slide away, and a conventional header bar slides in when the cursor nears the top edge (with hysteresis so it doesn't flicker). Touch devices get the header whenever scrolled, since they can't hover an edge.
-
-### Zodiac sky (`AtmosphericBackground.tsx`)
-
-All twelve zodiac constellations are encoded as small point/edge graphs and drawn as SVG. Each sign owns an overlapping window of the page's scroll range and fades through it, so the sky rotates through the full zodiac on the way down and back; the windows are sized so at least three signs are visible at any depth. Position updates run outside React through a single `requestAnimationFrame`-throttled scroll listener that only touches `transform` and `opacity`, and everything goes static under `prefers-reduced-motion`.
-
-### Ram scrollbar (`RamScrollbar.tsx`)
-
-The native scrollbar is hidden on desktop and replaced with a pixel-art bighorn ram that climbs a track on the right edge. The sprite is a character grid mapped through a palette and rendered as 1×1 SVG rects, rotated to face up the page. It's a real scrollbar, not a decoration: drag it (pointer capture, instant scroll), click the track to jump, or focus it and use arrow/page keys. It exposes `role="scrollbar"` with a live `aria-valuenow`.
-
-### Entrance seal (`ArchiveSeal.tsx`)
-
-First visit in a session plays a short unsealing animation: counter-rotating engraved rings, a monogram that draws itself in with a `stroke-dashoffset` animation, then the page opens through a `clip-path` iris. It runs about two seconds on its own, any click skips it, it remembers via `sessionStorage`, and reduced-motion users get a quick fade instead.
-
-### Clipped button frames (`archive-frame` in `styles.css`)
-
-Buttons have chamfered corners cut with `clip-path`. CSS borders can't follow a clip, so the border is faked with two layers: `::before` floods the clipped shape with the border color and `::after` repaints the interior with a matching octagon inset by 1px, leaving a crisp border that traces every edge.
-
-### Contact form (`ContactSection.tsx`)
-
-Client-side validation, then, since there's no backend, submission composes the message into a pre-filled `mailto:` draft so the button genuinely works from a static host.
+All colors are CSS custom properties in `src/styles.css` (gold `#D4AF37`, blue `#4D96FF`, indigo darks, in oklch). Buttons use chamfered `clip-path` frames, and every animation goes static under `prefers-reduced-motion`.
 
 ## Project structure
 
 - `src/routes` — TanStack route entry points
-- `src/components/portfolio` — the portfolio sections and visual components
+- `src/components/portfolio` — portfolio sections and visual components
 - `src/components/ui` — stock shadcn/Radix primitives
 - `src/content` — typed profile, skills, experience, and project data
+- `src/lib/gsap.ts` — GSAP + ScrollTrigger registration and reduced-motion helper
+- `src/components/portfolio/OracleScene.tsx` — lazy-loaded Three.js scene for the Oracle orb
 - `src/styles.css` — theme tokens, utilities, keyframes
 
 ## Running locally

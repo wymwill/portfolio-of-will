@@ -64,7 +64,7 @@ function Starfield() {
     stars.push({
       x: rand() * 100,
       y: rand() * 100,
-      r: rand() > 0.8 ? (rand() * 2 + 1.0) : (rand() * 0.8 + 0.4),
+      r: rand() > 0.8 ? rand() * 2 + 1.0 : rand() * 0.8 + 0.4,
       d: rand() * 5,
     });
   }

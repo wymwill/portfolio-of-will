@@ -15,7 +15,7 @@ export function ProjectsSection() {
   const others = PROJECTS.filter((p) => p !== featured);
 
   return (
-    <section id="projects" className="relative py-24 sm:py-32">
+    <section id="projects" className="relative py-20 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           label="Archive Record 04"

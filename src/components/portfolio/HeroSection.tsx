@@ -7,7 +7,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100svh] items-center overflow-hidden pb-16 pt-40 sm:pt-44"
+      className="relative flex min-h-[100svh] items-center overflow-hidden pb-40 pt-28 sm:pt-44"
     >
       <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 px-4 sm:px-6 md:grid-cols-[1.1fr_0.9fr] lg:px-8">
         <div className="relative z-10">
@@ -85,6 +85,11 @@ export function HeroSection() {
         <div className="relative hidden items-center justify-center md:flex">
           <div className="animate-drift w-full max-w-sm" style={{ animationDelay: "0.6s" }}>
             <HeroPortraitPlate />
+            <div className="mt-6 space-y-2 border-t border-brass-dim pt-6">
+              <MetaRow k="Institution" v={PROFILE.school} />
+              <MetaRow k="Program" v={PROFILE.program} />
+              <MetaRow k="Classification" v="Student" />
+            </div>
           </div>
         </div>
       </div>
@@ -133,5 +138,14 @@ function HeroPortraitPlate() {
         </div>
       )}
     </figure>
+  );
+}
+
+function MetaRow({ k, v }: { k: string; v: string }) {
+  return (
+    <div className="flex items-baseline justify-between gap-4">
+      <span className="font-mono-archive text-parchment-dim">{k}</span>
+      <span className="text-right text-sm text-parchment">{v}</span>
+    </div>
   );
 }

@@ -36,7 +36,7 @@ export function ContactSection() {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (state === "submitting") return; // prevent duplicate
+    if (state === "submitting") return;
     setState("validating");
     const errs = validate();
     setErrors(errs);
@@ -45,7 +45,6 @@ export function ContactSection() {
       return;
     }
     setState("submitting");
-    // no backend yet, so open a pre-filled draft in the visitor's mail client
     const subject = `[${form.reason}] Portfolio contact from ${form.name}`;
     const body = [
       form.message,
@@ -60,14 +59,15 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contact" className="relative py-24 sm:py-32">
+    <section id="contact" className="relative py-20 sm:py-32">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <SectionHeading label="Archive Record 05" title="Open a Channel" />
 
         <div className="mt-14 grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.3fr)]">
           <div className="flex flex-col">
             <blockquote className="border-l-2 border-brass pl-5 text-lg italic leading-relaxed text-parchment">
-              Contact me if you want to work together or just want to have a talk. I am interested in any opportunities to discuss new ideas and collaborate.
+              Contact me if you want to work together or just want to have a talk. I am interested
+              in any opportunities to discuss new ideas and collaborate.
             </blockquote>
 
             <ul className="mt-10 space-y-4">

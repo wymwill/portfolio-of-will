@@ -4,8 +4,8 @@ import { PROFILE } from "@/content/profile";
 
 type Phase = "sealing" | "opening" | "done";
 
-const SEAL_MS = 1500; // sigil engraves + rings align
-const OPEN_MS = 800; // iris opens onto the site
+const SEAL_MS = 1500;
+const OPEN_MS = 800;
 
 export function ArchiveSeal() {
   const [phase, setPhase] = useState<Phase>("sealing");

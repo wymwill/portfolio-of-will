@@ -1,7 +1,8 @@
 export const PROFILE = {
   name: "Will Wands",
   disciplines: ["Robotics", "Autonomous Systems", "Computer Vision", "Software Engineering"],
-  tagline: "Hi! I'm Will, a Computer Engineer and Computer Science student at Rutgers University with a passion for building real world systems that work. Reach out if you'd like collaborate!",
+  tagline:
+    "Hi! I'm Will, a Computer Engineer and Computer Science student at Rutgers University with a passion for building real world systems that work. Reach out if you'd like collaborate!",
   school: "Rutgers University - Honors School of Engineering",
   program: "Electrical & Computer Engineering and Computer Science",
 
@@ -12,7 +13,7 @@ export const PROFILE = {
   following: [
     "Lord of the Mysteries: Circle of Inevitability",
     "The Three Body Problem",
-    "Wistoria: Wand and Sword"
+    "Wistoria: Wand and Sword",
   ],
   interests: [
     "Autonomous navigation",

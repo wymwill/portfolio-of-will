@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { Reveal } from "./Reveal";
 
 export function ArchiveLabel({ children, className }: { children: ReactNode; className?: string }) {
   return (
@@ -23,7 +24,9 @@ export function SectionHeading({
   align?: "left" | "center";
 }) {
   return (
-    <header
+    <Reveal
+      as="header"
+      stagger
       className={cn(
         "flex flex-col gap-3",
         align === "center" ? "items-center text-center" : "items-start",
@@ -35,7 +38,7 @@ export function SectionHeading({
       </h2>
       {kicker ? <p className="max-w-2xl text-parchment-dim">{kicker}</p> : null}
       <EngravedDivider className={align === "center" ? "mx-auto" : ""} />
-    </header>
+    </Reveal>
   );
 }
 

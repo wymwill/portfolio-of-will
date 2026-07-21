@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
-const EDGE = 10; // travel padding so the ram stays fully on screen
-const RAM_SPAN = 36; // approximate rendered height of the sprite
+const EDGE = 10;
+const RAM_SPAN = 36;
 
 export function RamScrollbar() {
   const ramRef = useRef<HTMLDivElement>(null);
@@ -129,16 +129,15 @@ export function RamScrollbar() {
 }
 
 const PALETTE: Record<string, string> = {
-  b: "#a67c52", // body brown
-  s: "#8a6240", // shaded brown
-  d: "#6e4d33", // dark / far legs
-  h: "#d9b380", // horn light
-  H: "#b08d5e", // horn shadow
-  w: "#f2ebdd", // white rump & muzzle
-  k: "#2e2620", // hooves, eye, nose
+  b: "#a67c52",
+  s: "#8a6240",
+  d: "#6e4d33",
+  h: "#d9b380",
+  H: "#b08d5e",
+  w: "#f2ebdd",
+  k: "#2e2620",
 };
 
-// one char per pixel, mapped through PALETTE
 const SPRITE = [
   "........................",
   ".................hhh....",
