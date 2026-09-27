@@ -4635,3 +4635,343 @@ select {
 .connection-currency svg {
   flex-shrink: 0;
 }
+
+/* Responsive client layout: content stays in flow and remains reachable. */
+.client-header .social-links {
+  margin-left: auto;
+  gap: 0;
+}
+.client-header .social-links a {
+  border-right: 1px solid #78644388;
+  padding: 0 17px;
+  min-width: 48px;
+}
+.client-header .account {
+  align-self: stretch;
+  height: auto;
+  border-left: 1px solid #786443;
+  padding: 8px 18px;
+  margin-left: 14px;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s;
+}
+.client-header .account:hover,
+.client-header .account:focus-visible {
+  background: linear-gradient(0deg, #c8aa6e25, #12344355);
+  box-shadow: inset 0 -2px #c8aa6e;
+}
+.screen-lobby {
+  position: relative;
+  overflow-y: auto;
+}
+.screen-lobby .lobby-heading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+.screen-lobby .lobby-heading button {
+  pointer-events: auto;
+}
+.screen-lobby .party-banners {
+  padding-top: 0;
+  min-height: 500px;
+}
+.party-banner.lobby-owner {
+  min-height: 500px;
+  margin: 0;
+  padding: 75px 8px 64px;
+  height: 100%;
+  gap: 0;
+}
+.lobby-owner .rune-row {
+  margin: 22px 0 12px;
+  flex-shrink: 0;
+}
+.lobby-owner .inspect-player {
+  position: static;
+  display: flex;
+  align-items: center;
+  margin: 6px 0 0;
+  flex-shrink: 0;
+}
+.lobby-bottom {
+  flex-shrink: 0;
+  min-height: 125px;
+}
+.reference-profile {
+  min-height: 0;
+  overflow: auto;
+  align-items: flex-start;
+}
+.reference-profile .profile-banner {
+  flex-shrink: 0;
+}
+.reference-panels {
+  min-width: 0;
+  height: auto;
+  min-height: 100%;
+  overflow: visible;
+}
+.reference-stat-row {
+  grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+  gap: 24px 14px;
+  padding: 20px 8px 35px;
+  width: 100%;
+}
+.reference-stat-row > *,
+.reference-stat-row > button,
+.reference-stat-row > a {
+  min-height: 150px;
+  overflow: visible;
+}
+.reference-stat-row span,
+.reference-stat-row strong {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.reference-stat-row .organization-logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin: 12px auto 0;
+}
+.reference-stat-row .organization-wordmark {
+  display: grid;
+  place-items: center;
+  width: 100px;
+  height: 100px;
+  margin: 12px auto 0;
+  font: 700 27px Spiegel;
+  color: #a9dae5;
+}
+.featured-mastery {
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+.reference-stat-row .featured-mastery .mastery-technology {
+  position: static;
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
+  margin: 10px auto;
+  transform: none;
+}
+.history-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.organization-label {
+  font: 700 12px Spiegel;
+  color: #c8aa6e;
+}
+.friend-avatar {
+  display: grid;
+  place-items: center;
+}
+.friend-avatar .organization-label {
+  font-size: 9px;
+}
+.profile-skills-popover {
+  width: min(340px, calc(100vw - 40px));
+  max-height: 60vh;
+  overflow-y: auto;
+}
+@media (max-width: 1100px) {
+  .client-header {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 76px;
+    gap: 6px;
+  }
+  .client-header .social-links a {
+    padding: 0 10px;
+    min-width: 35px;
+  }
+  .client-header .account {
+    padding: 8px;
+    margin-left: 0;
+  }
+  .social {
+    display: none;
+  }
+  .client-center {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .reference-stat-row {
+    grid-template-columns: repeat(3, minmax(110px, 1fr));
+  }
+  .profile-art-space {
+    min-height: 160px;
+  }
+}
+@media (max-width: 700px) {
+  .league-shell {
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .client-header {
+    padding: 8px;
+  }
+  .client-header > nav:not(.social-links) {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    height: 38px;
+  }
+  .client-header .social-links {
+    margin-left: auto;
+  }
+  .client-header .account {
+    min-width: 0;
+  }
+  .client-header .account img {
+    width: 38px;
+    height: 38px;
+  }
+  .client-header .account > span {
+    font-size: 11px;
+  }
+  .client-header .league-mark {
+    width: 32px;
+  }
+  .client-header .play {
+    width: 88px;
+    min-width: 0;
+  }
+  .client-center {
+    min-height: 0;
+    flex: 1;
+    overflow: hidden;
+  }
+  .game-area {
+    min-width: 0;
+  }
+  .screen-lobby .party-banners {
+    display: grid;
+    grid-template-columns: 1fr 1fr minmax(165px, 2.5fr) 1fr 1fr;
+    overflow: visible;
+    padding: 0 8px;
+    gap: 4px;
+    min-height: 450px;
+  }
+  .party-banner.lobby-owner {
+    min-height: 450px;
+    padding: 70px 5px 55px;
+  }
+  .open-party-position .empty-slot-plus {
+    width: 32px;
+    height: 32px;
+  }
+  .lobby-owner .rune-row > span {
+    width: 32px;
+    height: 32px;
+  }
+  .screen-lobby .lobby-heading strong {
+    font-size: 9px;
+  }
+  .screen-lobby .lobby-heading button {
+    font-size: 8px;
+  }
+  .lobby-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    height: auto;
+    padding: 14px;
+    gap: 14px;
+  }
+  .lobby-chat {
+    width: 100%;
+    order: 2;
+  }
+  .queue-control {
+    margin: 0;
+  }
+  .role-controls {
+    position: static;
+    margin-left: 8px;
+  }
+  .reference-profile {
+    display: flex;
+    flex-direction: column;
+    padding: 0 14px;
+    gap: 20px;
+  }
+  .reference-profile .profile-banner {
+    width: 200px;
+    height: auto;
+    min-height: 380px;
+    align-self: center;
+    padding: 25px 10px 50px;
+    clip-path: polygon(0 0, 100% 0, 100% 88%, 50% 100%, 0 88%);
+  }
+  .reference-profile .banner-outline {
+    display: block;
+  }
+  .reference-panels {
+    width: 100%;
+    min-height: 0;
+    flex: none;
+    padding: 0;
+  }
+  .profile-art-space {
+    display: none;
+  }
+  .reference-stat-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 20px;
+  }
+  .profile-skills-popover {
+    position: static;
+    width: 100%;
+    transform: none;
+    margin: 10px 0;
+    max-height: none;
+  }
+  .profile-skills-popover:after {
+    display: none;
+  }
+  .profile-mastery-control:has(.profile-skills-popover) {
+    grid-column: 1 / -1;
+  }
+  .stable-tabs {
+    flex-shrink: 0;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+  .history-row {
+    height: auto;
+    grid-template-columns: 75px 40px minmax(0, 1fr);
+    gap: 10px;
+    padding: 14px 10px;
+  }
+  .history-stat {
+    grid-column: 3;
+  }
+  .history-row > svg {
+    display: none;
+  }
+  .history-role strong,
+  .history-role span {
+    white-space: normal;
+  }
+}
+.reference-stat-row .featured-mastery .mastery-technology {
+  background: none;
+  clip-path: none;
+  padding: 0;
+}
+@media (min-width: 701px) and (max-width: 1100px) {
+  .profile-skills-popover {
+    right: 0;
+    left: auto;
+    transform: none;
+  }
+}

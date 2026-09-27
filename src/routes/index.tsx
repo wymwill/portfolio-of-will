@@ -172,7 +172,7 @@ const skills = [
     text: "Relational design across eight tables, with search query speeds under 40ms.",
   },
   {
-    name: "Computer vision",
+    name: "OpenCV",
     group: "Frameworks",
     icon: Sparkles,
     proof: "Signing Llama · Imposture · IGVC",
@@ -186,18 +186,18 @@ const skills = [
     text: "Streaming priority queues and custom Redis-style in-memory data ingestion.",
   },
   {
-    name: "REST APIs",
+    name: "TypeScript",
     group: "Systems",
     icon: Network,
-    proof: "MITRE · TFT Teacher · RUOnCampus",
-    text: "High-throughput endpoints, API rate limits, authentication, and JSON/HTTP interfaces.",
+    proof: "Viand",
+    text: "Typed React and Next.js application development for a group dining assistant.",
   },
   {
-    name: "Robotics",
+    name: "TensorFlow",
     group: "Systems",
     icon: Cpu,
-    proof: "IEEE IGVC · Governor’s School",
-    text: "ROS 2, Gazebo, LiDAR integration, spatial mapping, A*, and RRT* path planning.",
+    proof: "Angry Signing Llama",
+    text: "Real-time sign recognition and machine-learning inference for a web application.",
   },
   {
     name: "Vue.js",
@@ -207,7 +207,7 @@ const skills = [
     text: "Interfaces for on-demand microservice translation workflows.",
   },
   {
-    name: "Git & CI/CD",
+    name: "Git",
     group: "Infrastructure",
     icon: Shield,
     proof: "MITRE",
@@ -331,8 +331,8 @@ function Portfolio() {
     "postgresql",
     "opencv",
     "redis",
-    "rest-api",
-    "ros",
+    "typescript",
+    "tensorflow",
     "vuejs",
     "git",
     "javascript",
@@ -411,19 +411,6 @@ function Portfolio() {
             <BookOpen />
           </a>
         </nav>
-        <div className="currencies">
-          <a
-            className="connection-currency"
-            href="https://www.linkedin.com/in/wowands"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="View LinkedIn connections"
-            title="LinkedIn connections"
-          >
-            <Linkedin size={16} />
-            <span>Connections</span>
-          </a>
-        </div>
         <button className="account" aria-label="Will Wands profile" onClick={() => go("Profile")}>
           <img src="/will-avatar.png" alt="" />
           <span>
@@ -853,7 +840,19 @@ function Portfolio() {
                             <span>{p.date}</span>
                           </div>
                           <div className="history-icon">
-                            <p.icon size={27} />
+                            {p.name === "The MITRE Corporation" ? (
+                              <img src="/league/organizations/mitre.png" alt="MITRE" />
+                            ) : (
+                              <span className="organization-label">
+                                {p.name === "IEEE · IGVC"
+                                  ? "IEEE"
+                                  : p.name === "Chinese Student Org."
+                                    ? "CSO"
+                                    : p.name === "Rutgers University"
+                                      ? "RU"
+                                      : "GSET"}
+                              </span>
+                            )}
                           </div>
                           <div className="history-role">
                             <strong>{p.role}</strong>
@@ -901,12 +900,16 @@ function Portfolio() {
                     <button onClick={() => go("History")}>
                       <span>EXPERIENCE</span>
                       <strong>MITRE</strong>
-                      <img src="/league/emerald.png" alt="" />
+                      <img
+                        className="organization-logo"
+                        src="/league/organizations/mitre.png"
+                        alt="MITRE"
+                      />
                     </button>
                     <button onClick={() => go("History")}>
                       <span>LEADERSHIP</span>
                       <strong>IEEE · IGVC</strong>
-                      <img src="/league/honor.png" alt="" />
+                      <span className="organization-wordmark">IEEE</span>
                     </button>
                     <div
                       className="profile-mastery-control"
@@ -933,8 +936,11 @@ function Portfolio() {
                         <span>SKILL MASTERY</span>
                         <strong className="stat-number">12</strong>
                         <div className="featured-mastery">
-                          <Code2 size={40} />
-                          <img src="/league/mastery-mark.png" alt="" />
+                          <img
+                            className="mastery-technology"
+                            src="/league/skills/python.svg"
+                            alt="Python"
+                          />
                         </div>
                       </button>
                       {masteryOpen && (
@@ -1032,8 +1038,23 @@ function Portfolio() {
             >
               <div
                 className="friend-avatar"
-                style={{ backgroundImage: `url(/league/${art[i]}.jpg)` }}
+                style={
+                  p.name === "The MITRE Corporation"
+                    ? { backgroundImage: "url(/league/organizations/mitre.png)" }
+                    : { backgroundImage: "none" }
+                }
               >
+                {p.name !== "The MITRE Corporation" && (
+                  <span className="organization-label">
+                    {p.name === "IEEE · IGVC"
+                      ? "IEEE"
+                      : p.name === "Chinese Student Org."
+                        ? "CSO"
+                        : p.name === "Rutgers University"
+                          ? "RU"
+                          : "GSET"}
+                  </span>
+                )}
                 <i />
               </div>
               <span>
