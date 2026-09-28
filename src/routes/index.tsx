@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef } from "react";
+import { createPortal } from "react-dom";
+import { useEffect, useState, useRef, type ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   ArrowUpRight,
@@ -100,6 +101,13 @@ const projects = [
       "Built a Next.js and React TypeScript dining messaging service for iMessage and Telegram groups. Uses OpenStreetMap's Overpass API and Claude APIs to find dining options within a five-mile radius.",
   },
 ];
+const organizationLogos: Record<string, string> = {
+  "The MITRE Corporation": "/league/organizations/mitre.png",
+  "Governor’s School": "/league/organizations/gset.png",
+  "IEEE · IGVC": "/league/organizations/igvc.png",
+  "Chinese Student Org.": "/league/organizations/cso.jpeg",
+  "Rutgers University": "/league/organizations/rutgers.png",
+};
 const experiences = [
   {
     name: "The MITRE Corporation",
@@ -847,14 +855,25 @@ function Portfolio() {
                     <button onClick={() => go("History")}>
                       <span>LEADERSHIP</span>
                       <strong>IEEE · IGVC</strong>
-                      <span className="organization-wordmark">IEEE</span>
+                      <img
+                        className="organization-logo"
+                        src="/league/organizations/igvc.png"
+                        alt="Rutgers IGVC"
+                      />
                     </button>
                     <div
                       className="profile-mastery-control"
-                      onMouseEnter={() => setMasteryOpen(true)}
-                      onMouseLeave={() => setMasteryOpen(false)}
+                      onMouseEnter={() => {
+                        if (window.matchMedia("(hover: hover)").matches) setMasteryOpen(true);
+                      }}
+                      onMouseLeave={() => {
+                        if (window.matchMedia("(hover: hover)").matches) setMasteryOpen(false);
+                      }}
                       onBlur={(e) => {
-                        if (!e.currentTarget.contains(e.relatedTarget as Node))
+                        if (
+                          window.innerWidth > 700 &&
+                          !e.currentTarget.contains(e.relatedTarget as Node)
+                        )
                           setMasteryOpen(false);
                       }}
                       onKeyDown={(e) => {
@@ -868,7 +887,9 @@ function Portfolio() {
                         className="profile-mastery-trigger"
                         aria-expanded={masteryOpen}
                         aria-controls="profile-skills"
-                        onFocus={() => setMasteryOpen(true)}
+                        onFocus={() => {
+                          if (window.innerWidth > 700) setMasteryOpen(true);
+                        }}
                         onClick={() => setMasteryOpen(true)}
                       >
                         <span>SKILL MASTERY</span>
@@ -882,42 +903,48 @@ function Portfolio() {
                         </div>
                       </button>
                       {masteryOpen && (
-                        <section
-                          id="profile-skills"
-                          className="profile-skills-popover"
-                          aria-label="Skill mastery points"
-                        >
-                          <header>
-                            <h2>SKILL MASTERY</h2>
-                            <button aria-label="Close skills" onClick={() => setMasteryOpen(false)}>
-                              <X size={15} />
-                            </button>
-                          </header>
-                          <div className="skill-logo-grid">
-                            {skills
-                              .map((s, i) => ({ s, i }))
-                              .sort((a, b) => skillPoints[b.i] - skillPoints[a.i])
-                              .map(({ s, i }) => (
-                                <button
-                                  key={s.name}
-                                  aria-label={`${s.name}: ${skillPoints[i].toLocaleString("en-US")} relative mastery points`}
-                                  title={`${s.name} — ${skillPoints[i].toLocaleString("en-US")} PTS`}
-                                  onClick={() =>
-                                    setModal({
-                                      title: s.name,
-                                      text: s.text,
-                                      tags: [
-                                        `${skillPoints[i].toLocaleString("en-US")} relative portfolio points`,
-                                        s.proof,
-                                      ],
-                                    })
-                                  }
-                                >
-                                  <img src={`/league/skills/${skillLogos[i]}.svg`} alt={s.name} />
-                                </button>
-                              ))}
-                          </div>
-                        </section>
+                        <MobileSkillDialog onClose={() => setMasteryOpen(false)}>
+                          <section
+                            id="profile-skills"
+                            className="profile-skills-popover"
+                            aria-label="Skill mastery points"
+                          >
+                            <header>
+                              <h2>SKILL MASTERY</h2>
+                              <button
+                                aria-label="Close skills"
+                                onClick={() => setMasteryOpen(false)}
+                              >
+                                <X size={15} />
+                              </button>
+                            </header>
+                            <div className="skill-logo-grid">
+                              {skills
+                                .map((s, i) => ({ s, i }))
+                                .sort((a, b) => skillPoints[b.i] - skillPoints[a.i])
+                                .map(({ s, i }) => (
+                                  <button
+                                    key={s.name}
+                                    aria-label={`${s.name}: ${skillPoints[i].toLocaleString("en-US")} relative mastery points`}
+                                    title={`${s.name} — ${skillPoints[i].toLocaleString("en-US")} PTS`}
+                                    onClick={() => {
+                                      setMasteryOpen(false);
+                                      setModal({
+                                        title: s.name,
+                                        text: s.text,
+                                        tags: [
+                                          `${skillPoints[i].toLocaleString("en-US")} relative portfolio points`,
+                                          s.proof,
+                                        ],
+                                      });
+                                    }}
+                                  >
+                                    <img src={`/league/skills/${skillLogos[i]}.svg`} alt={s.name} />
+                                  </button>
+                                ))}
+                            </div>
+                          </section>
+                        </MobileSkillDialog>
                       )}
                     </div>
                     <button onClick={() => go("Projects")}>
@@ -970,29 +997,12 @@ function Portfolio() {
           </div>
           {party.map((p, i) => (
             <button
-              className="friend experience-friend"
+              className={`friend experience-friend${i >= 2 ? " is-in-progress" : ""}`}
               key={p.name}
               onClick={() => setModal({ title: p.name, text: p.text, tags: [p.role, p.date] })}
             >
-              <div
-                className="friend-avatar"
-                style={
-                  p.name === "The MITRE Corporation"
-                    ? { backgroundImage: "url(/league/organizations/mitre.png)" }
-                    : { backgroundImage: "none" }
-                }
-              >
-                {p.name !== "The MITRE Corporation" && (
-                  <span className="organization-label">
-                    {p.name === "IEEE · IGVC"
-                      ? "IEEE"
-                      : p.name === "Chinese Student Org."
-                        ? "CSO"
-                        : p.name === "Rutgers University"
-                          ? "RU"
-                          : "GSET"}
-                  </span>
-                )}
+              <div className="friend-avatar organization-avatar">
+                <img src={organizationLogos[p.name]} alt={`${p.name} logo`} />
                 <i />
               </div>
               <span>
@@ -1141,22 +1151,21 @@ function ExperienceTimeline({ onOpen }: { onOpen: (entry: (typeof party)[number]
     { year: "2024", ranked: [], unranked: [experiences[1]] },
   ];
   const card = (entry: (typeof party)[number], ranked: boolean) => (
-    <button key={entry.name} className="timeline-card" onClick={() => onOpen(entry)}>
+    <button
+      key={entry.name}
+      className={`timeline-card${entry.date.includes("Present") ? " is-in-progress" : ""}`}
+      onClick={() => onOpen(entry)}
+    >
       <span className="timeline-win">
-        VICTORY <span>{ranked ? "RANKED" : "UNRANKED"}</span>
+        {entry.date.includes("Present") ? "IN PROGRESS" : "VICTORY"}{" "}
+        <span>{ranked ? "RANKED" : "UNRANKED"}</span>
       </span>
       <span className="timeline-card-heading">
-        {entry.name === "The MITRE Corporation" ? (
-          <img src="/league/organizations/mitre.png" alt="MITRE" />
-        ) : (
-          <span className="timeline-org">
-            {entry.name === "IEEE · IGVC"
-              ? "IEEE"
-              : entry.name === "Chinese Student Org."
-                ? "CSO"
-                : "GSET"}
-          </span>
-        )}
+        <img
+          className="experience-logo"
+          src={organizationLogos[entry.name]}
+          alt={`${entry.name} logo`}
+        />
         <span>
           <strong>{entry.role}</strong>
           <span>{entry.name}</span>
@@ -1209,8 +1218,15 @@ function ExperienceTimeline({ onOpen }: { onOpen: (entry: (typeof party)[number]
           </section>
         ))}
       </div>
-      <button className="timeline-education" onClick={() => onOpen(party[party.length - 1])}>
-        <GraduationCap size={22} />
+      <button
+        className="timeline-education is-in-progress"
+        onClick={() => onOpen(party[party.length - 1])}
+      >
+        <img
+          className="education-logo"
+          src="/league/organizations/rutgers.png"
+          alt="Rutgers University"
+        />
         <span>
           <strong>Rutgers University</strong>
           <span>Honors Engineering Student · ECE & Computer Science</span>
@@ -1218,5 +1234,28 @@ function ExperienceTimeline({ onOpen }: { onOpen: (entry: (typeof party)[number]
         <ChevronRight size={16} />
       </button>
     </div>
+  );
+}
+
+function MobileSkillDialog({ children, onClose }: { children: ReactNode; onClose: () => void }) {
+  const [mobile] = useState(() => window.matchMedia("(max-width: 700px)").matches);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  useEffect(() => {
+    if (mobile) dialogRef.current?.showModal();
+  }, [mobile]);
+  if (!mobile) return <>{children}</>;
+  return createPortal(
+    <dialog
+      ref={dialogRef}
+      className="mobile-skill-dialog"
+      aria-label="Skill mastery"
+      onCancel={onClose}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      {children}
+    </dialog>,
+    document.body,
   );
 }

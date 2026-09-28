@@ -5378,3 +5378,288 @@ select {
     scroll-behavior: auto;
   }
 }
+
+/* Active roles use the client's light-blue status palette. */
+.timeline-card.is-in-progress {
+  border-color: #39738b;
+  border-top-color: #81d9f4;
+  background: linear-gradient(120deg, #14374add, #071723ee);
+}
+.timeline-card.is-in-progress:hover {
+  border-color: #a2e7ff;
+  box-shadow: 0 0 22px #66d4ff20;
+}
+.timeline-card.is-in-progress .timeline-win,
+.timeline-card.is-in-progress .timeline-date,
+.timeline-card.is-in-progress .timeline-detail,
+.timeline-card.is-in-progress .timeline-org {
+  color: #9ae4ff;
+}
+.timeline-card.is-in-progress .timeline-tags > span {
+  color: #a4dff2;
+  border-color: #34596c;
+}
+.timeline-card.is-in-progress .timeline-card-heading > span > span {
+  color: #a8cfdf;
+}
+.social .experience-friend.is-in-progress small {
+  color: #81d9f4;
+}
+.social .experience-friend.is-in-progress .friend-avatar i {
+  background: #81d9f4;
+}
+.timeline-education.is-in-progress {
+  color: #9ae4ff;
+  border-color: #39738b;
+  background: #0a202c;
+}
+.timeline-year.year-awaiting {
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.65, 0.3, 1),
+    transform 0.8s cubic-bezier(0.2, 0.65, 0.3, 1);
+  transform: translateY(20px);
+}
+.timeline-year.year-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.timeline-year.year-visible .timeline-card {
+  animation: experience-card-enter 0.75s cubic-bezier(0.2, 0.65, 0.3, 1) both;
+}
+.timeline-year.year-visible .timeline-card:nth-child(2) {
+  animation-delay: 0.12s;
+}
+@keyframes experience-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .timeline-year.year-awaiting {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .timeline-year.year-visible .timeline-card {
+    animation: none;
+  }
+}
+/* Reserve independent space for project badges and wrapping titles. */
+.project-inventory .inventory-card {
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  width: 100%;
+}
+.project-inventory .inventory-portrait {
+  width: 100%;
+  flex-shrink: 0;
+}
+.project-inventory .inventory-name {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: start;
+  gap: 8px;
+  position: static;
+  width: 100%;
+  height: auto;
+  min-height: 54px;
+  padding: 12px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+.project-inventory .inventory-name .tiny-mastery {
+  position: static;
+  inset: auto;
+  transform: none;
+  width: 34px;
+  height: 38px;
+  margin: 0;
+}
+.screen-projects {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.screen-projects .inventory {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+.screen-projects .inventory-content {
+  min-width: 0;
+}
+@media (max-width: 700px) {
+  .screen-projects .inventory {
+    display: block;
+    padding: 16px;
+  }
+  .screen-projects .inventory-sidebar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    position: static;
+    width: 100%;
+    min-width: 0;
+    padding: 0 0 20px;
+    border: 0;
+  }
+  .screen-projects .collection-score {
+    display: none;
+  }
+  .screen-projects .search {
+    grid-column: 1 / -1;
+    margin: 0;
+    min-height: 40px;
+  }
+  .screen-projects .search input {
+    font-size: 14px;
+  }
+  .screen-projects .filter-label {
+    margin: 0;
+    font-size: 10px;
+  }
+  .screen-projects select {
+    font-size: 13px;
+    min-height: 40px;
+    width: 100%;
+  }
+  .screen-projects .inventory-content {
+    width: 100%;
+    overflow: visible;
+    padding: 0;
+  }
+  .screen-projects .project-inventory {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 14px;
+  }
+  .project-inventory .inventory-name {
+    font-size: 12px;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 6px;
+  }
+  .project-inventory .inventory-name .tiny-mastery {
+    width: 28px;
+    height: 32px;
+  }
+  .screen-projects .inventory-portrait {
+    aspect-ratio: 0.8;
+  }
+}
+.social .experience-friend .organization-avatar {
+  background: #07131c;
+  border-radius: 4px;
+}
+.organization-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 3px;
+}
+.timeline-card-heading .experience-logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 4px;
+  background: #07131c;
+}
+.timeline-education .education-logo {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+@media (max-width: 600px) {
+  .timeline-card-heading .experience-logo {
+    width: 48px;
+    height: 48px;
+  }
+}
+@media (max-width: 700px) {
+  .screen-projects .project-inventory {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: 28px 18px;
+  }
+  .screen-projects .inventory-portrait {
+    aspect-ratio: 0.85;
+    background-size: cover;
+    background-position: center top;
+  }
+  .project-inventory .inventory-name {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .reference-stat-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .reference-stat-row > button,
+  .reference-stat-row > a,
+  .reference-stat-row > .profile-mastery-control {
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #66533388;
+    background: #06121bc9;
+  }
+  .reference-stat-row span {
+    font-size: 13px;
+  }
+  .reference-stat-row strong {
+    font-size: 12px;
+  }
+  .reference-stat-row .profile-mastery-control {
+    grid-column: auto;
+  }
+}
+.mobile-skill-dialog {
+  margin: auto;
+  width: min(390px, calc(100vw - 32px));
+  max-height: calc(100dvh - 48px);
+  padding: 0;
+  border: 1px solid #c8aa6e;
+  background: #06131d;
+  color: #f0e6d2;
+  overflow-y: auto;
+  box-shadow: 0 20px 80px #000a;
+}
+.mobile-skill-dialog::backdrop {
+  background: #000b;
+  backdrop-filter: blur(4px);
+}
+.mobile-skill-dialog .profile-skills-popover {
+  position: static;
+  width: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 20px;
+  border: 0;
+  transform: none;
+}
+.mobile-skill-dialog .skill-logo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+.mobile-skill-dialog .skill-logo-grid img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+.mobile-skill-dialog .skill-logo-grid button {
+  min-height: 64px;
+}
+.mobile-skill-dialog header button {
+  min-width: 40px;
+  min-height: 40px;
+  display: grid;
+  place-items: center;
+}
