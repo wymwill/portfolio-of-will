@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   ArrowUpRight,
@@ -798,77 +798,15 @@ function Portfolio() {
             </div>
           )}
           {menu === "History" && (
-            <>
-              <div className="match-history">
-                <div className="history-title">
-                  <h1>Experiences</h1>
-                  <span>CAREER WINS</span>
-                </div>
-                {[
-                  {
-                    title: "RANKED WINS",
-                    description: "Jobs & professional experience",
-                    entries: party.slice(0, 1),
-                  },
-                  {
-                    title: "UNRATED WINS",
-                    description: "School, research & leadership",
-                    entries: party.slice(1),
-                  },
-                ].map((group) => (
-                  <section className="career-win-group" key={group.title}>
-                    <header>
-                      <h2>{group.title}</h2>
-                      <span>{group.description}</span>
-                    </header>
-                    {[...group.entries]
-                      .sort((a, b) => roleDates[b.name] - roleDates[a.name])
-                      .map((p) => (
-                        <button
-                          key={p.name}
-                          className="history-row"
-                          onClick={() =>
-                            setModal({
-                              title: p.name,
-                              text: p.text,
-                              tags: [p.role, p.date, ...p.skills.split(" · ")],
-                            })
-                          }
-                        >
-                          <div className="history-result">
-                            <strong>VICTORY</strong>
-                            <span>{p.date}</span>
-                          </div>
-                          <div className="history-icon">
-                            {p.name === "The MITRE Corporation" ? (
-                              <img src="/league/organizations/mitre.png" alt="MITRE" />
-                            ) : (
-                              <span className="organization-label">
-                                {p.name === "IEEE · IGVC"
-                                  ? "IEEE"
-                                  : p.name === "Chinese Student Org."
-                                    ? "CSO"
-                                    : p.name === "Rutgers University"
-                                      ? "RU"
-                                      : "GSET"}
-                              </span>
-                            )}
-                          </div>
-                          <div className="history-role">
-                            <strong>{p.role}</strong>
-                            <span>{p.name}</span>
-                          </div>
-                          <div className="history-stat">
-                            <strong>{p.stat}</strong>
-                            <span>{p.label}</span>
-                          </div>
-                          <ChevronRight size={16} />
-                        </button>
-                      ))}
-                  </section>
-                ))}
-              </div>
-            </>
+            <ExperienceTimeline
+              onOpen={(p) =>
+                setModal({
+                  title: p.name,
+                  text: p.text,
+                  tags: [p.role, p.date, ...p.skills.split(" · ")],
+                })
+              }
+            />
           )}
           {menu === "Profile" && (
             <>
@@ -1032,7 +970,7 @@ function Portfolio() {
           </div>
           {party.map((p, i) => (
             <button
-              className="friend"
+              className="friend experience-friend"
               key={p.name}
               onClick={() => setModal({ title: p.name, text: p.text, tags: [p.role, p.date] })}
             >
@@ -1171,5 +1109,114 @@ function BannerOutline() {
         vectorEffect="non-scaling-stroke"
       />
     </svg>
+  );
+}
+
+function ExperienceTimeline({ onOpen }: { onOpen: (entry: (typeof party)[number]) => void }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const root = scrollRef.current;
+    if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const sections = root.querySelectorAll<HTMLElement>(".timeline-year");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("year-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { root, threshold: 0.08 },
+    );
+    sections.forEach((section) => {
+      section.classList.add("year-awaiting");
+      observer.observe(section);
+    });
+    return () => observer.disconnect();
+  }, []);
+  const years = [
+    { year: "2026", ranked: [experiences[0]], unranked: [] },
+    { year: "2025", ranked: [], unranked: [experiences[2], experiences[3]] },
+    { year: "2024", ranked: [], unranked: [experiences[1]] },
+  ];
+  const card = (entry: (typeof party)[number], ranked: boolean) => (
+    <button key={entry.name} className="timeline-card" onClick={() => onOpen(entry)}>
+      <span className="timeline-win">
+        VICTORY <span>{ranked ? "RANKED" : "UNRANKED"}</span>
+      </span>
+      <span className="timeline-card-heading">
+        {entry.name === "The MITRE Corporation" ? (
+          <img src="/league/organizations/mitre.png" alt="MITRE" />
+        ) : (
+          <span className="timeline-org">
+            {entry.name === "IEEE · IGVC"
+              ? "IEEE"
+              : entry.name === "Chinese Student Org."
+                ? "CSO"
+                : "GSET"}
+          </span>
+        )}
+        <span>
+          <strong>{entry.role}</strong>
+          <span>{entry.name}</span>
+        </span>
+      </span>
+      <span className="timeline-date">{entry.date}</span>
+      <span className="timeline-description">{entry.text}</span>
+      <span className="timeline-tags">
+        {entry.skills.split(" · ").map((skill) => (
+          <span key={skill}>{skill}</span>
+        ))}
+      </span>
+      <span className="timeline-detail">
+        VIEW EXPERIENCE <ChevronRight size={13} />
+      </span>
+    </button>
+  );
+  return (
+    <div className="experience-timeline" ref={scrollRef}>
+      <header className="timeline-intro">
+        <span>CAREER WINS</span>
+        <h1>Experiences</h1>
+        <p>Work, research, and leadership. Scroll through the years.</p>
+      </header>
+      <div className="timeline-column-headings">
+        <div>
+          <h2>RANKED</h2>
+          <p>Jobs & professional experience</p>
+        </div>
+        <div>
+          <h2>UNRANKED</h2>
+          <p>School, research & leadership</p>
+        </div>
+      </div>
+      <div className="timeline-years">
+        {years.map(({ year, ranked, unranked }) => (
+          <section className="timeline-year" key={year} aria-label={`${year} experiences`}>
+            <h2 className="timeline-year-label">{year}</h2>
+            <div className="timeline-year-columns">
+              <div className="timeline-lane ranked-lane" aria-label={`${year} ranked experiences`}>
+                {ranked.map((entry) => card(entry, true))}
+              </div>
+              <div
+                className="timeline-lane unranked-lane"
+                aria-label={`${year} unranked experiences`}
+              >
+                {unranked.map((entry) => card(entry, false))}
+              </div>
+            </div>
+          </section>
+        ))}
+      </div>
+      <button className="timeline-education" onClick={() => onOpen(party[party.length - 1])}>
+        <GraduationCap size={22} />
+        <span>
+          <strong>Rutgers University</strong>
+          <span>Honors Engineering Student · ECE & Computer Science</span>
+        </span>
+        <ChevronRight size={16} />
+      </button>
+    </div>
   );
 }
